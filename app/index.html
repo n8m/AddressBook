@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Address Book</title>
+
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+
+</head>
+<body ng-app="AddressBook" ng-controller="AddressBookCtrl">
+  
+  <h1>Address Book</h1>
+
+  <section class="well">
+
+    <input type="text" class="form-control reset-width panel" ng-model="search" placeholder="Search">
+
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="address in addresses | filter:search | orderBy:'group'">
+        <span ng-hide="isEditable">
+          <strong>{{address.name}} {{address.surname}}</strong> - {{address.phoneNumber}} (<span ng-show="!address.group">No Group</span>{{address.group}})
+        </span>
+      
+        <form ng-show="isEditable" class="form-inline inline-block" ng-submit="isEditable=false">
+          <input required class="form-control reset-width" ng-model="address.name" type="text" value="{{address.name}}" placeholder="name"> <input class="form-control reset-width" type="text" ng-model="address.surname" value="{{address.surname}}" placeholder="surname"> - <input required class="form-control reset-width" type="text" ng-model="address.phoneNumber" value="{{address.phoneNumber}}" placeholder="phone-number"> (<input class="form-control reset-width" type="text" ng-model="address.group" value="{{address.group}}" placeholder="group">)
+          <input type="submit" class="btn btn-default btn-xs" ng-show="isEditable" value="Save">
+        </form>
+        <button class="btn btn-danger btn-xs pull-right" ng-click="deleteAddress($index)">Delete</button>
+        <button class="btn btn-default btn-xs pull-right" ng-disabled="isEditable" ng-click="isEditable=true">Edit</button>
+      </li>
+    </ul>
+
+    <form class="form-inline" ng-submit="addAddress()">
+      <input required class="form-control reset-width" type="text" ng-model="newAddress.name" placeholder="name">
+      <input class="form-control reset-width" type="text" ng-model="newAddress.surname" placeholder="surname">
+      <input required class="form-control reset-width" type="text" ng-model="newAddress.phoneNumber" placeholder="phone-number">
+      <input class="form-control reset-width" type="text" ng-model="newAddress.group" placeholder="group">
+      <input class="form-control reset-width" type="submit" class="btn btn-default btn-xs" value="Add">
+    </form>
+  </section>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+  <script src="js/index.js"></script>
+
+</body>
+</html>
